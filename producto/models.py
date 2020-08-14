@@ -9,6 +9,8 @@ class Producto(models.Model):
     descripcion = models.TextField()
     precio = models.DecimalField(decimal_places=2, max_digits=20)
 
+    def __str__(self):
+        return self.nombre
 
-
-
+    def __unicode__(self):
+        return self.nombre
