@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from producto.views import ProductoListView, producto_list_view
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^productos/$', ProductoListView.as_view()),
+    url(r'^productos-fbv/$', producto_list_view),
+
 ]
