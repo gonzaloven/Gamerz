@@ -15,11 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from gamerz.producto.views import (
+from producto.views import (
     ProductoListView,
-    producto_list_view,
     ProductoDetailView,
-    producto_detail_view,
     ProductoDestacadoListView,
     ProductoDestacadoDetailView
 )
@@ -28,9 +26,7 @@ from gamerz.producto.views import (
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^productos/$', ProductoListView.as_view()),
-    url(r'^productos-fbv/$', producto_list_view),
     url(r'^productos/(?P<pk>\d+)/$', ProductoDetailView.as_view()),
-    url(r'^productos-fbv/(?P<pk>\d+)/$', producto_detail_view),
     url(r'^destacados/$', ProductoDestacadoListView.as_view()),
     url(r'^destacados/(?P<pk>\d+)/$', ProductoDestacadoDetailView.as_view()),
 ]

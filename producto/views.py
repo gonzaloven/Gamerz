@@ -12,15 +12,7 @@ class ProductoListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         request = self.request
-        return Producto.objects.all()
-
-
-def producto_list_view(request):
-    queryset = Producto.objects.all()
-    context = {
-        'lista_de_productos': querySet
-    }
-    return render(request, "productos/list.html", context)
+        return Producto.objects.todosLosProductos()
 
 
 class ProductoDetailView(DetailView):
@@ -38,17 +30,6 @@ class ProductoDetailView(DetailView):
         if instance is None:
             raise Http404("El producto solicitado no existe")
         return instance
-
-
-def producto_detail_view(request, pk=None, *args, **kwargs):
-    instance = Producto.objects.buscarProductoPorId(pk)
-    if instance is None:
-        raise Http404("El producto solicitado no existe")
-
-    context = {
-        'object': instance
-    }
-    return render(request, "productos/detail.html", context)
 
 
 class ProductoDestacadoListView(ListView):

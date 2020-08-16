@@ -10,12 +10,14 @@ from django.db import models
 def uploadImagePath(instance, filename):
     return os.path.join('productos', str(instance.id), filename)
 
+
 class ProductoQuerySet(models.query.QuerySet):
     def activos(self):
         return self.filter(activo=True)
 
     def destacados(self):
         return self.filter(destacado=True, activo=True)
+
 
 class ProductoManager(models.Manager):
     def get_queryset(self):
