@@ -8,8 +8,11 @@ from django.http import Http404
 
 # Create your views here.
 class ProductoListView(ListView):
-    queryset = Producto.objects.all()
     template_name = "productos/list.html"
+
+    def get_queryset(self, *args, **kwargs):
+        request = self.request
+        return Producto.objects.all()
 
 
 def producto_list_view(request):
@@ -21,7 +24,6 @@ def producto_list_view(request):
 
 
 class ProductoDetailView(DetailView):
-    queryset = Producto.objects.all()
     template_name = "productos/detail.html"
 
     def get_context_data(self, *args, **kwargs):
@@ -29,12 +31,18 @@ class ProductoDetailView(DetailView):
         print(context)
         return context
 
+    def get_object(self, *args, **kwargs):
+        request = self.request
+        pk = self.kwargs.get('pk')
+        instance = Producto.objects.buscarProductoPorId(pk)
+        if instance is None:
+            raise Http404("El producto solicitado no existe")
+        return instance
+
 
 def producto_detail_view(request, pk=None, *args, **kwargs):
-    queryset = Producto.objects.filter(id=pk)
-    if queryset.exists() and queryset.count() == 1:
-        instance = queryset.first()
-    else:
+    instance = Producto.objects.buscarProductoPorId(pk)
+    if instance is None:
         raise Http404("El producto solicitado no existe")
 
     context = {

@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='producto',
             name='imagen',
-            field=models.ImageField(blank=True, null=True, upload_to=gamerz.producto.models.upload_image_path),
+            field=models.ImageField(blank=True, null=True, upload_to=gamerz.producto.models.uploadImagePath),
         ),
     ]
