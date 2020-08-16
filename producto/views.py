@@ -8,7 +8,7 @@ from django.shortcuts import render, get_object_or_404
 # Create your views here.
 class ProductoListView(ListView):
     queryset = Producto.objects.all()
-    template_name = "productos/lista.html"
+    template_name = "productos/list.html"
 
 
 def producto_list_view(request):
@@ -16,12 +16,12 @@ def producto_list_view(request):
     context = {
         'lista_de_productos': querySet
     }
-    return render(request, "productos/lista.html", context)
+    return render(request, "productos/list.html", context)
 
 
 class ProductoDetailView(DetailView):
     queryset = Producto.objects.all()
-    template_name = "productos/detalles.html"
+    template_name = "productos/detail.html"
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProductoDetailView, self).get_context_data(*args, **kwargs)
@@ -34,4 +34,4 @@ def producto_detail_view(request, pk=None, *args, **kwargs):
     context = {
         'object': instance
     }
-    return render(request, "productos/detalles.html", context)
+    return render(request, "productos/detail.html", context)
