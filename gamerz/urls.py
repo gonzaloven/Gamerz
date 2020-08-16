@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from producto.views import ProductoListView, producto_list_view, ProductoDetailView, producto_detail_view
+from gamerz.producto.views import ProductoListView, producto_list_view, ProductoDetailView, producto_detail_view
 
 
 urlpatterns = [

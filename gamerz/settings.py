@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #Mis apps
-    'producto'
+    'gamerz.producto'
 ]
 
 MIDDLEWARE = [

@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 from .models import Producto
 from django.views.generic import ListView, DetailView
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
+from django.http import Http404
 
 
 # Create your views here.
@@ -30,7 +31,12 @@ class ProductoDetailView(DetailView):
 
 
 def producto_detail_view(request, pk=None, *args, **kwargs):
-    instance = get_object_or_404(Producto, pk=pk)
+    queryset = Producto.objects.filter(id=pk)
+    if queryset.exists() and queryset.count() == 1:
+        instance = queryset.first()
+    else:
+        raise Http404("El producto solicitado no existe")
+
     context = {
         'object': instance
     }
