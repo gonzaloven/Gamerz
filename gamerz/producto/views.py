@@ -49,3 +49,16 @@ def producto_detail_view(request, pk=None, *args, **kwargs):
         'object': instance
     }
     return render(request, "productos/detail.html", context)
+
+
+class ProductoDestacadoListView(ListView):
+    template_name = "productos/list.html"
+
+    def get_queryset(self, *args, **kwargs):
+        request = self.request
+        return Producto.objects.productosDestacados()
+
+
+class ProductoDestacadoDetailView(DetailView):
+    queryset = Producto.objects.productosDestacados()
+    template_name = "productos/destacados-detail.html"
