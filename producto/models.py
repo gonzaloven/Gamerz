@@ -21,6 +21,9 @@ class ProductoQuerySet(models.query.QuerySet):
     def destacados(self):
         return self.filter(destacado=True, activo=True)
 
+    def porSlug(self, slugProducto):
+        return self.activos().filter(slug=slugProducto)
+
 
 class ProductoManager(models.Manager):
     def get_queryset(self):
@@ -32,14 +35,11 @@ class ProductoManager(models.Manager):
     def productosDestacados(self):
         return self.get_queryset().destacados()
 
-    def buscarProductoPorId(self, idProducto):
-        queryset = self.get_queryset().filter(id=idProducto)
+    def buscarProductoPorSlug(self, slugProducto):
+        queryset = self.get_queryset().porSlug(slugProducto)
         if queryset.count() == 1:
             return queryset.first()
         return None
-
-    def delete(self):
-        return self.todosLosProductos().delete()
 
 
 class Producto(models.Model):
@@ -52,6 +52,9 @@ class Producto(models.Model):
     destacado = models.BooleanField(default=False)
 
     objects = ProductoManager()
+
+    def get_absolute_url(self):
+        return "/productos/{slug}/".format(slug=self.slug)
 
     def __str__(self):
         return self.nombre

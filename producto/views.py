@@ -29,9 +29,9 @@ class ProductoDetailSlugView(DetailView):
     def get_object(self, *args, **kwargs):
         request = self.request
         slug = self.kwargs.get('slug')
-
         try:
-            instanciaProducto = Producto.objects.get(slug=slug, active=True)
+            print('empieza la query')
+            instanciaProducto = Producto.objects.buscarProductoPorSlug(slug)
         except Producto.DoesNotExist:
             raise Http404("El producto solicitado no existe")
         except Producto.MultipleObjectsReturned:
