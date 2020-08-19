@@ -3,9 +3,12 @@ from __future__ import unicode_literals
 import os
 import random
 from django.db import models
-
+from django.db.models.signals import pre_save
+from .utils import generadorSlugUnico
 
 # Create your models here.
+
+
 
 def uploadImagePath(instance, filename):
     return os.path.join('productos', str(instance.id), filename)
@@ -35,9 +38,13 @@ class ProductoManager(models.Manager):
             return queryset.first()
         return None
 
+    def delete(self):
+        return self.todosLosProductos().delete()
+
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=120)
+    slug = models.SlugField(blank=True, unique=True)
     descripcion = models.TextField()
     precio = models.DecimalField(decimal_places=2, max_digits=20)
     imagen = models.ImageField(upload_to=uploadImagePath, null=True, blank=True)
@@ -51,3 +58,11 @@ class Producto(models.Model):
 
     def __unicode__(self):
         return self.nombre
+
+
+def agregarSlug(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = generadorSlugUnico(instance)
+
+
+pre_save.connect(agregarSlug, sender=Producto)

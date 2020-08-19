@@ -15,23 +15,6 @@ class ProductoListView(ListView):
         return Producto.objects.todosLosProductos()
 
 
-class ProductoDetailView(DetailView):
-    template_name = "productos/detail.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(ProductoDetailView, self).get_context_data(*args, **kwargs)
-        print(context)
-        return context
-
-    def get_object(self, *args, **kwargs):
-        request = self.request
-        pk = self.kwargs.get('pk')
-        instance = Producto.objects.buscarProductoPorId(pk)
-        if instance is None:
-            raise Http404("El producto solicitado no existe")
-        return instance
-
-
 class ProductoDestacadoListView(ListView):
     template_name = "productos/list.html"
 
@@ -40,6 +23,20 @@ class ProductoDestacadoListView(ListView):
         return Producto.objects.productosDestacados()
 
 
-class ProductoDestacadoDetailView(DetailView):
-    queryset = Producto.objects.productosDestacados()
-    template_name = "productos/destacados-detail.html"
+class ProductoDetailSlugView(DetailView):
+    template_name = "productos/detail.html"
+
+    def get_object(self, *args, **kwargs):
+        request = self.request
+        slug = self.kwargs.get('slug')
+
+        try:
+            instanciaProducto = Producto.objects.get(slug=slug, active=True)
+        except Producto.DoesNotExist:
+            raise Http404("El producto solicitado no existe")
+        except Producto.MultipleObjectsReturned:
+            query = Producto.objects.filter(slug=slug, active=True)
+            instanciaProducto = query.first()
+        except:
+            raise Http404("Oops")
+        return instanciaProducto

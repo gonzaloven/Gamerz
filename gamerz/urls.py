@@ -17,16 +17,14 @@ from django.conf.urls import url
 from django.contrib import admin
 from producto.views import (
     ProductoListView,
-    ProductoDetailView,
     ProductoDestacadoListView,
-    ProductoDestacadoDetailView
+    ProductoDetailSlugView
 )
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^productos/$', ProductoListView.as_view()),
-    url(r'^productos/(?P<pk>\d+)/$', ProductoDetailView.as_view()),
-    url(r'^destacados/$', ProductoDestacadoListView.as_view()),
-    url(r'^destacados/(?P<pk>\d+)/$', ProductoDestacadoDetailView.as_view()),
+    url(r'^productos/(?P<slug>[\w-]+)/$', ProductoDetailSlugView.as_view()),
+    url(r'^destacados/$', ProductoDestacadoListView.as_view())
 ]

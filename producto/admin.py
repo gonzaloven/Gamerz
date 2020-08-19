@@ -3,5 +3,14 @@ from __future__ import unicode_literals
 from .models import Producto
 from django.contrib import admin
 
+
 # Register your models here.
-admin.site.register(Producto)
+
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'slug']
+
+    class Meta:
+        model = Producto
+
+
+admin.site.register(Producto, ProductoAdmin)
